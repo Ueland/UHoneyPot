@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by thu on 3/13/17.
+ * Created by Ueland on 3/13/17.
  */
 class SocketHandler implements Runnable {
 

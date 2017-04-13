@@ -1,12 +1,6 @@
 package no.ueland.uHoneyPot;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by Ueland on 3/13/17.
@@ -14,7 +8,6 @@ import java.util.Set;
 class UHoneyPot {
 
     private static final ArrayList<Integer> ports = new ArrayList<>();
-    private static Selector selector = null;
 
     public static void main(String[] args) {
         if(args.length == 0 || args[0].equals("help")) {
@@ -34,41 +27,12 @@ class UHoneyPot {
             System.out.println(ports.size() + " ports");
         }
 
-        try {
-            selector = Selector.open();
-        } catch (IOException e) {
-            die(e);
-        }
-
         for(int port : ports) {
-            try {
-                ServerSocketChannel server = ServerSocketChannel.open();
-                server.configureBlocking(false);
-                server.socket().bind(new InetSocketAddress(port));
-                server.register(selector, SelectionKey.OP_ACCEPT);
-
-                while (selector.isOpen()) {
-                    selector.select();
-                    Set readyKeys = selector.selectedKeys();
-                    for (Object readyKey : readyKeys) {
-                        SelectionKey key = (SelectionKey) readyKey;
-                        if (key.isAcceptable()) {
-                            new SocketHandler(server.accept().socket()).run();
-                        }
-                    }
-                }
-
-            }catch(Exception ex) {
-                die(ex);
-            }
+            new Thread(new PortHandler(port)).start();
         }
     }
 
-    private static void die(Exception e) {
-        System.err.println(e.getMessage());
-        e.printStackTrace();
-        System.exit(1);
-    }
+
 
     private static void getPortRanges(String[] args) {
         for(String arg : args) {
