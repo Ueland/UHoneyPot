@@ -29,7 +29,7 @@ class SocketHandler implements Runnable {
         File logFile = getLogFile();
         String remoteAddr = this.socket.getRemoteSocketAddress().toString();
         int port = this.socket.getLocalPort();
-        System.out.println("Logging connection to #"+port+" to log file "+logFile.getAbsolutePath());
+        System.out.println('['+fullDate.format(new Date())+"] Logging connection to #"+port+" to log file "+logFile.getAbsolutePath());
 
         try {
             String preLog = "============ New connection on #" + port + " from " + remoteAddr + " @ " + fullDate.format(new Date()) + " ============\n";
