@@ -22,14 +22,15 @@ class UHoneyPot {
         }
         System.out.print("Starting UHoneyPot on ");
         if(ports.size() == 1) {
-            System.out.println("port "+ports.get(0));
+            System.out.print("port "+ports.get(0));
         } else {
-            System.out.println(ports.size() + " ports");
+            System.out.print(ports.size() + " ports");
         }
-
+        System.out.print(" ...");
         for(int port : ports) {
             new Thread(new PortHandler(port)).start();
         }
+        System.out.println(" Ok");
     }
 
 
