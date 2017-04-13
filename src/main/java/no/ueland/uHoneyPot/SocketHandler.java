@@ -15,8 +15,8 @@ import java.util.Date;
  */
 class SocketHandler implements Runnable {
 
-    private static final SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-mm-dd");
-    private static final SimpleDateFormat fullDate = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    private static final SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat fullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final Socket socket;
 
     public SocketHandler(Socket s) {
