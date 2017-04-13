@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,16 +32,17 @@ class SocketHandler implements Runnable {
         System.out.println("Logging connection to #"+port+" to log file "+logFile.getAbsolutePath());
 
         try {
-            String preLog = "============ New connection on #"+port+" from "+remoteAddr+" @ "+fullDate.format(new Date())+" ============\n";
+            String preLog = "============ New connection on #" + port + " from " + remoteAddr + " @ " + fullDate.format(new Date()) + " ============\n";
             writeToLogFile(logFile, preLog);
             BufferedReader br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             String str;
             while ((str = br.readLine()) != null) {
-                writeToLogFile(logFile, str+'\n');
+                writeToLogFile(logFile, str + '\n');
             }
             br.close();
             this.socket.close();
-
+        } catch(SocketException sx) {
+            // no need to make a fuzz over connections that gets reset
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             ex.printStackTrace();
