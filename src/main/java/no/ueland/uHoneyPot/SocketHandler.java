@@ -28,6 +28,9 @@ class SocketHandler implements Runnable {
     public void run() {
         File logFile = getLogFile();
         String remoteAddr = this.socket.getRemoteSocketAddress().toString();
+        if(remoteAddr.startsWith("/")) {
+            remoteAddr = remoteAddr.substring(1);
+        }
         int port = this.socket.getLocalPort();
         System.out.println('['+fullDate.format(new Date())+"] Logging connection to #"+port+" to log file "+logFile.getAbsolutePath());
 
